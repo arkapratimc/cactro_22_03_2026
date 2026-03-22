@@ -1,24 +1,26 @@
-### 1. Get List
-GET http://localhost:3000/api/releases
+### 1. Get List of All Releases
+GET https://cactro-22-03-2026.vercel.app/api/releases
 
-### 2. Create New
-POST http://localhost:3000/api/releases
+### 2. Create a New Release
+POST https://cactro-22-03-2026.vercel.app/api/releases
 Content-Type: application/json
 
 {
-    "name": "v3.0.0",
-    "date": "2026-05-20T09:00:00Z",
-    "additionalInfo": "API Created"
+    "name": "v4.0.0-prod",
+    "date": "2026-06-15T12:00:00Z",
+    "additionalInfo": "Production release via REST Client"
 }
 
-### 3. Update (Edit) - Replace {{id}} with an actual ID from Step 1
-PATCH http://localhost:3000/api/releases?id=4
+### 3. Update (Edit) Steps and Notes
+# Replace the 'id' parameter with a real ID from the GET request above
+PATCH https://cactro-22-03-2026.vercel.app/api/releases?id=1
 Content-Type: application/json
 
 {
-    "steps": ["merge", "tests"],
-    "notes": "Updated via REST Client"
+    "steps": ["merge", "changelog", "tests"],
+    "notes": "Verified via external API call"
 }
 
-### 4. Delete - Replace {{id}} with an actual ID
-DELETE http://localhost:3000/api/releases?id=4
+### 4. Delete a Release
+# Replace the 'id' parameter with the ID you wish to remove
+DELETE https://cactro-22-03-2026.vercel.app/api/releases?id=1
