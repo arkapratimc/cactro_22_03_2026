@@ -1,87 +1,89 @@
-# Welcome to React Router!
+# ReleaseCheck 🚀
 
-A modern, production-ready template for building full-stack React applications using React Router.
+**ReleaseCheck** is a full-stack web application designed to help developers track and manage their software release cycles. It provides a structured checklist for each release, ensuring that critical steps—like merging pull requests and running final tests—are completed before deployment.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
-
-## Features
-
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
-
-## Getting Started
-
-### Installation
-
-Install the dependencies:
-
-```bash
-npm install
-```
-
-### Development
-
-Start the development server with HMR:
-
-```bash
-npm run dev
-```
-
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+## 🌐 Live Demo
+The application is deployed and accessible here:  
+[https://cactro-22-03-2026.vercel.app/](https://cactro-22-03-2026.vercel.app/)
 
 ---
 
-Built with ❤️ using React Router.
+## 🛠 Project Structure & Setup
+
+The repository is organized into two main branches to handle different environments:
+
+* **`main`**: The production branch, optimized for deployment on **Vercel**.
+* **`node_2`**: The local development branch, optimized for a standard Node.js environment.
+
+### Local Development (Branch: `node_2`)
+To run this project locally, follow these steps:
+1.  **Switch Branch:** `git checkout node_2`
+2.  **Install Dependencies:** `npm install`
+3.  **Environment Variables:** Create a `.env` file in the root directory and add your database connection string:
+    ```text
+    DATABASE_URL=postgresql://arka:password@localhost:5432/release_db
+    ```
+4.  **Database Migration:** Run `npx drizzle-kit push` to sync the schema with your local database.
+5.  **Build & Launch:**
+    ```bash
+    npm run build
+    npm run start
+    ```
+    *The local server will be available at **http://localhost:3000***.
+
+---
+
+## 📊 Database Schema
+
+The application uses **PostgreSQL** with **Drizzle ORM**. All release data is stored in a single, efficient table named `releases`:
+
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| **id** | Serial | Primary Key; unique identifier for each release. |
+| **name** | Varchar | The version name (e.g., "v1.0.5"). **Required.** |
+| **releaseDate** | Timestamp | The scheduled date and time for the release. **Required.** |
+| **additionalInfo** | Text | An optional field for remarks, notes, or extra tasks. |
+| **completedSteps** | Array (Text) | Stores the IDs of finished checklist items to track progress. |
+
+---
+
+## 🔌 API Documentation
+
+The application includes a **Resource Route** (API) designed for external consumption by tools like Postman or the VS Code REST Client.
+
+**Production Base URL:** `https://cactro-22-03-2026.vercel.app/api/releases`  
+**Local Base URL:** `http://localhost:3000/api/releases`
+
+### Endpoints
+
+#### 1. Fetch All Releases
+* **Method:** `GET`
+* **Description:** Retrieves a JSON list of all release records.
+
+#### 2. Create a Release
+* **Method:** `POST`
+* **Body (JSON):** ```json
+    { "name": "v1.0.0", "date": "2026-03-22T12:00:00Z", "additionalInfo": "Optional note" }
+    ```
+* **Description:** Adds a new release to the database.
+
+#### 3. Update a Release (Edit)
+* **Method:** `PATCH`
+* **URL Parameter:** `?id=[ReleaseID]`
+* **Body (JSON):**
+    ```json
+    { "steps": ["merge", "tests"], "notes": "Updated remarks" }
+    ```
+* **Description:** Updates the checklist progress and the remarks for a specific release.
+
+#### 4. Delete a Release
+* **Method:** `DELETE`
+* **URL Parameter:** `?id=[ReleaseID]`
+* **Description:** Permanently removes a release record from the system.
+
+---
+
+## 📝 Testing Tools
+The repository includes an `api.http` file for rapid testing.
+* In the **`main`** branch, the file is pre-configured with the Vercel production URL.
+* In the **`node_2`** branch, the file points to `http://localhost:3000` for local testing.
