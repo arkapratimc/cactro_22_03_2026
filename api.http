@@ -1,0 +1,24 @@
+### 1. Get List
+GET http://localhost:3000/api/releases
+
+### 2. Create New
+POST http://localhost:3000/api/releases
+Content-Type: application/json
+
+{
+    "name": "v3.0.0",
+    "date": "2026-05-20T09:00:00Z",
+    "additionalInfo": "API Created"
+}
+
+### 3. Update (Edit) - Replace {{id}} with an actual ID from Step 1
+PATCH http://localhost:3000/api/releases?id=4
+Content-Type: application/json
+
+{
+    "steps": ["merge", "tests"],
+    "notes": "Updated via REST Client"
+}
+
+### 4. Delete - Replace {{id}} with an actual ID
+DELETE http://localhost:3000/api/releases?id=4

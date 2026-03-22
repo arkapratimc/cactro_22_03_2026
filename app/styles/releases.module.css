@@ -1,0 +1,104 @@
+.container {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: sans-serif;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.cardHeader {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  /* Add this line to force dark text */
+  color: #1f2937 !important; 
+}
+
+.table th {
+  background: #f9fafb;
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  color: #6b7280;
+}
+
+.table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  /* Ensure individual cells also follow the rule */
+  color: #1f2937;
+}
+
+/* Also ensure your links (View button) aren't invisible */
+.table a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.statusDone { background: #dcfce7; color: #15803d; }
+.statusOngoing { background: #ffedd5; color: #9a3412; }
+.statusPlanned { background: #f3f4f6; color: #374151; }
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+}
+
+.textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+  height: 120px;
+  margin-top: 0.5rem;
+}
+
+.btnPrimary {
+  background: #4f46e5;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btnPrimary:hover { background: #4338ca; }
+
+/* release.module.css */
+.inputField {
+  border: 1px solid #d1d5db;
+  padding: 0.25rem 0.5rem;
+  background-color: white !important; /* Force white background */
+  color: #111827 !important;           /* Force dark gray/black text */
+  border-radius: 4px;
+}
