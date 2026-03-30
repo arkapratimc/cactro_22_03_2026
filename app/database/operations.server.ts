@@ -4,6 +4,19 @@ import {
 import {releases} from "./schema.server.js"
 import { eq, sql, desc } from "drizzle-orm";
 
+function formatDate(date) {
+  const pad = (n) => n.toString().padStart(2, '0');
+
+  const day = pad(date.getDate());
+  const month = pad(date.getMonth() + 1); // months are 0-based
+  const year = date.getFullYear();
+
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
 /**
  * Fetches all releases and calculates the status based on step completion.
  * This satisfies the "View list of all releases" requirement.
@@ -17,8 +30,15 @@ export async function getAllReleases(totalStepsCount: number = 7) {
     
     if (count === totalStepsCount) status = "Done";
     else if (count > 0) status = "Ongoing";
+
+
+    // --- NEW LOGIC START ---
+    // Extract the raw year, month, day, etc. from the DB date 
+    // This ignores the timezone "shift" the browser usually does.
+    const d = r.releaseDate;
+    const displayDate = formatDate(d);
     
-    return { ...r, status };
+    return { ...r, status, displayDate };
   });
 }
 
