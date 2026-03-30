@@ -24,7 +24,18 @@ export async function action({ request }: Route.ActionArgs) {
   }
   return { success: true };
 }
+function formatDate(date) {
+  const pad = (n) => n.toString().padStart(2, '0');
 
+  const day = pad(date.getDate());
+  const month = pad(date.getMonth() + 1); // months are 0-based
+  const year = date.getFullYear();
+
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { releases } = loaderData;
 
@@ -81,7 +92,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             {releases.map((rel) => (
               <tr key={rel.id}>
                 <td>{rel.name}</td>
-                <td>{new Date(rel.releaseDate).toLocaleDateString()}</td>
+                <td>{formatDate(new Date(rel.releaseDate))}</td>
                 <td>
                   <span className={`${styles.badge} ${styles[`status${rel.status}`]}`}>
                     {rel.status}
