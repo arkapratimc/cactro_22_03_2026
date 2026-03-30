@@ -14,7 +14,7 @@ export async function action({ request }: Route.ActionArgs) {
 
   if (intent === "create") {
     const name = formData.get("name") as string;
-    const date = new Date(formData.get("date") as string);
+    const date = new Date((formData.get("date")).replace('T', ' '));
     const additionalInfo = formData.get("additionalInfo") as string; // Optional
 
     await createRelease(name, date, additionalInfo);
