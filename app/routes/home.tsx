@@ -27,7 +27,7 @@ export async function action({ request }: Route.ActionArgs) {
 /**
  * Converts "YYYY-MM-DDTHH:mm" to "DD-MM-YYYY HH:mm"
  */
-export const formatReleaseDate = (dateString: string): string => {
+const formatReleaseDate = (dateString: string): string => {
   if (!dateString) return "";
 
   // Split the date and time parts
@@ -36,6 +36,34 @@ export const formatReleaseDate = (dateString: string): string => {
 
   return `${day}-${month}-${year} ${timePart}`;
 };
+
+
+/**
+ * Returns true if the date is in the past (before today)
+ * Returns false if the date is today or in the future
+ * Input format: "26-11-2026 11:45"
+ */
+const isBeforeToday = (dateTimeStr: string): boolean => {
+  if (!dateTimeStr) return false;
+
+  // 1. Get just the "26-11-2026" part
+  const [datePart] = dateTimeStr.split(" ");
+  
+  // 2. Split into day, month, year
+  const [day, month, year] = datePart.split("-").map(Number);
+
+  // 3. Create Date objects (Month is 0-indexed in JS, so month - 1)
+  const targetDate = new Date(year, month - 1, day);
+  const today = new Date();
+
+  // 4. Strip time from both to compare strictly by calendar date
+  targetDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+
+  return targetDate < today;
+};
+
+
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { releases } = loaderData;
 
@@ -51,7 +79,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     // 2. Convert to your desired string format
     // For example, a readable locale string or just a clean ISO string
     const formattedDate = formatReleaseDate(rawDate); 
-    console.log(formattedDate)
+    if (isBeforeToday(formattedDate)) {
+      alert("Type a future date");
+      return;
+    }
     // 3. Swap the value in formData before submitting
     formData.set("date", formattedDate);
 
@@ -70,7 +101,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <div className={styles.card}> 
         <div className={styles.cardHeader}>
           <h2 style={{ color: "#4f46e5", margin: 0 }}>All releases</h2>
-          <Form onSubmit={handleSubmit} style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <Form onSubmit={handleSubmit} className={styles.formContainer}>
             <input type="hidden" name="intent" value="create" />
             
             <input 
