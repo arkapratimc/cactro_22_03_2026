@@ -33,7 +33,7 @@ export const formatToSlashedDate = (dateString: string): string => {
  * This satisfies the "View list of all releases" requirement.
  */
 export async function getAllReleases(totalStepsCount: number = 7) {
-  const data = await db.select().from(releases).orderBy(desc(releases.releaseDate));
+  const data = await db.select().from(releases).orderBy(desc(releases.id));
   
   return data.map((r) => {
     const count = r.completedSteps?.length ?? 0;
