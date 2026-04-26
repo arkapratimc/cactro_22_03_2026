@@ -41,7 +41,7 @@ The application uses **PostgreSQL** with **Drizzle ORM**. All release data is st
 | :--- | :--- | :--- |
 | **id** | Serial | Primary Key; unique identifier for each release. |
 | **name** | Varchar | The version name (e.g., "v1.0.5"). **Required.** |
-| **releaseDate** | Timestamp | The scheduled date and time for the release. **Required.** |
+| **releaseDate** | Text | The scheduled date and time for the release. **Required.** |
 | **additionalInfo** | Text | An optional field for remarks, notes, or extra tasks. |
 | **completedSteps** | Array (Text) | Stores the IDs of finished checklist items to track progress. |
 
@@ -62,9 +62,10 @@ The application includes a **Resource Route** (API) designed for external consum
 
 #### 2. Create a Release
 * **Method:** `POST`
-* **Body (JSON):** ```json
-    { "name": "v1.0.0", "date": "2026-03-22T12:00:00Z", "additionalInfo": "Optional note" }
-    ```
+* **Body (JSON):**  
+```json
+    { "name": "v1.0.0", "date": "22-03-2026 11:00", "additionalInfo": "Optional note" }
+```
 * **Description:** Adds a new release to the database.
 
 #### 3. Update a Release (Edit)
