@@ -2,7 +2,7 @@ import {
     db 
 } from "./db.server.js";
 import {releases} from "./schema.server.js"
-import { eq, sql, desc } from "drizzle-orm";
+import { eq, sql, desc, asc } from "drizzle-orm";
 
 function formatDate(date) {
   const pad = (n) => n.toString().padStart(2, '0');
@@ -33,7 +33,7 @@ export const formatToSlashedDate = (dateString: string): string => {
  * This satisfies the "View list of all releases" requirement.
  */
 export async function getAllReleases(totalStepsCount: number = 7) {
-  const data = await db.select().from(releases).orderBy(desc(releases.id));
+  const data = await db.select().from(releases).orderBy(asc(releases.id));
   
   return data.map((r) => {
     const count = r.completedSteps?.length ?? 0;
