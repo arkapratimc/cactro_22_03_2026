@@ -13,7 +13,7 @@ Content-Type: application/json
 
 ### 3. Update (Edit) Steps and Notes
 # Replace the 'id' parameter with a real ID from the GET request above
-PATCH https://cactro-22-03-2026.vercel.app/api/releases?id=1
+PATCH https://cactro-22-03-2026.vercel.app/api/releases?id=13
 Content-Type: application/json
 
 {
