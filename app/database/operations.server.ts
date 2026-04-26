@@ -17,6 +17,17 @@ function formatDate(date) {
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
+
+/**
+ * Converts "DD-MM-YYYY HH:mm" to "DD/MM/YYYY HH:mm"
+ */
+export const formatToSlashedDate = (dateString: string): string => {
+  if (!dateString) return "";
+
+  // Replaces all hyphens with slashes
+  return dateString.replace(/-/g, "/");
+};
+
 /**
  * Fetches all releases and calculates the status based on step completion.
  * This satisfies the "View list of all releases" requirement.
@@ -36,7 +47,7 @@ export async function getAllReleases(totalStepsCount: number = 7) {
     // Extract the raw year, month, day, etc. from the DB date 
     // This ignores the timezone "shift" the browser usually does.
     const d = r.releaseDate;
-    const displayDate = formatDate(d);
+    const displayDate = formatToSlashedDate(d);
     
     return { ...r, status, displayDate };
   });
@@ -45,7 +56,7 @@ export async function getAllReleases(totalStepsCount: number = 7) {
 /**
  * Creates a new release entry.
  */
-export async function createRelease(name: string, date: Date, info?: string) {
+export async function createRelease(name: string, date: string, info?: string) {
   return await db.insert(releases).values({
     name,
     releaseDate: date,

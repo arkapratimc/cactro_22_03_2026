@@ -42,6 +42,14 @@ export async function action({ request, params }: Route.ActionArgs) {
   return redirect("/");
 }
 
+
+const formatToSlashedDate = (dateString: string): string => {
+  if (!dateString) return "";
+
+  // Replaces all hyphens with slashes
+  return dateString.replace(/-/g, "/");
+};
+
 export default function ReleaseDetail({ loaderData }: Route.ComponentProps) {
   const { release } = loaderData;
 
@@ -67,7 +75,7 @@ export default function ReleaseDetail({ loaderData }: Route.ComponentProps) {
           <div>
             <label style={{ fontSize: "0.75rem", fontWeight: "bold", color: "#6b7280" }}>DATE</label>
             <div style={{ padding: "0.5rem", border: "1px solid #e5e7eb", background: "#f9fafb", color: "#1f2937" }}>
-              {new Date(release.releaseDate).toLocaleDateString()}
+              {formatToSlashedDate(release.releaseDate)}
             </div>
           </div>
         </div>

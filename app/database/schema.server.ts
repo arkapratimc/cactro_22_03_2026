@@ -7,7 +7,7 @@ export const releases = pgTable("releases", {
   name: varchar("name", { length: 255 }).notNull(),
   
   // Mandatory: Due date for the release
-  releaseDate: timestamp("release_date").notNull(),
+  releaseDate: text("release_date").notNull(),
   
   // Optional: "Additional remarks / tasks" textarea
   additionalInfo: text("additional_info"),

@@ -1,4 +1,4 @@
-import { Form, Link } from "react-router";
+import { Form, Link, useSubmit } from "react-router";
 import type { Route } from "./+types/home";
 import styles from "../styles/releases.module.css";
 import { getAllReleases, createRelease, deleteRelease } from "../database/operations.server";
@@ -14,7 +14,7 @@ export async function action({ request }: Route.ActionArgs) {
 
   if (intent === "create") {
     const name = formData.get("name") as string;
-    const date = new Date((formData.get("date")).replace('T', ' '));
+    const date = formData.get("date");
     const additionalInfo = formData.get("additionalInfo") as string; // Optional
 
     await createRelease(name, date, additionalInfo);
@@ -24,9 +24,40 @@ export async function action({ request }: Route.ActionArgs) {
   }
   return { success: true };
 }
+/**
+ * Converts "YYYY-MM-DDTHH:mm" to "DD-MM-YYYY HH:mm"
+ */
+export const formatReleaseDate = (dateString: string): string => {
+  if (!dateString) return "";
 
+  // Split the date and time parts
+  const [datePart, timePart] = dateString.split("T");
+  const [year, month, day] = datePart.split("-");
+
+  return `${day}-${month}-${year} ${timePart}`;
+};
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { releases } = loaderData;
+
+  const submit = useSubmit();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+
+    // 1. Get the raw date from the input (e.g., "2026-04-26T14:30")
+    const rawDate = formData.get("date") as string;
+    // console.log(rawDate)
+    // 2. Convert to your desired string format
+    // For example, a readable locale string or just a clean ISO string
+    const formattedDate = formatReleaseDate(rawDate); 
+    console.log(formattedDate)
+    // 3. Swap the value in formData before submitting
+    formData.set("date", formattedDate);
+
+    // 4. Submit imperatively to your action
+    submit(formData, { method: "post" });
+  };
 
   return (
     <div className={styles.container}>
@@ -39,7 +70,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <div className={styles.card}> 
         <div className={styles.cardHeader}>
           <h2 style={{ color: "#4f46e5", margin: 0 }}>All releases</h2>
-          <Form method="post" style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <Form onSubmit={handleSubmit} style={{ display: "flex", gap: "8px", alignItems: "center" }}>
             <input type="hidden" name="intent" value="create" />
             
             <input 

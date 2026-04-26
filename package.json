@@ -6,7 +6,8 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "see": "npm run build && npm run start"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
