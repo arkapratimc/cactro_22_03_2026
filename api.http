@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
     "name": "v4.0.0-prod",
-    "date": "2026-06-15T12:00:00Z",
+    "date": "15-06-2026 11:00",
     "additionalInfo": "Production release via REST Client"
 }
 

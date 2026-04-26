@@ -23,7 +23,7 @@ export async function action({ request }: Route.ActionArgs) {
     if (!body.name || !body.date) {
       return Response.json({ error: "Name and Date required" }, { status: 400 });
     }
-    const newRel = await createRelease(body.name, new Date(body.date), body.additionalInfo);
+    const newRel = await createRelease(body.name, body.date, body.additionalInfo);
     return Response.json(newRel, { status: 201 });
   }
 
